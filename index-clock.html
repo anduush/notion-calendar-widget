@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Clock</title>
+</head>
+
+<body>
+    <div class="w-full min-h-screen rounded-xl relative bg-cover bg-center" id="background"
+        style="background-image: url(./assets/computer-night-pixelart.gif);">
+
+        <div class="absolute bottom-7 left-7">
+            <h1 class="text-white font-bold text-xl sm:text-4xl" id="date__day">
+                June 24, 2024
+            </h1>
+            <h2 class="text-white font-bold text-3xl sm:text-6xl" id="date__hour"></h2>
+        </div>
+
+    </div>
+
+    <script>
+
+        // Functions
+        const $ = el => document.getElementById(el)
+        const $$ = el => document.querySelectorAll(el)
+
+        function getTodayDate() {
+            const months = [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+            const today = new Date();
+            const day = today.getDate();
+            const month = months[today.getMonth()];
+            const year = today.getFullYear();
+
+            return `${day} ${month} ${year}`;
+        }
+
+        function getCurrentTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes();
+            const isPM = hours >= 12;
+
+            if (isPM && hours > 12) {
+                hours -= 12;
+            }
+
+            if (!isPM && hours === 0) {
+                hours = 12;
+            }
+
+            const formattedHours = hours.toString().padStart(2, '0');
+            const formattedMinutes = minutes.toString().padStart(2, '0');
+
+            return `${formattedHours}:${formattedMinutes} ${isPM ? 'PM' : 'AM'}`;
+        }
+
+        const backgrounds = ["https://wallpapercave.com/wp/wp12850291.gif", "https://i.pinimg.com/originals/b2/2a/a2/b22aa22b2f3f55b6468361158d52e2e7.gif"]
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const $day = $("date__day")
+            const $hour = $("date__hour")
+
+            $day.textContent = getTodayDate()
+            $hour.textContent = getCurrentTime()
+
+            setInterval(() => {
+                $hour.textContent = getCurrentTime()
+            }, 1000)
+
+        })
+    </script>
+</body>
+
+</html>
